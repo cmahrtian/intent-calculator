@@ -10,40 +10,57 @@ export default {
         [1, 2, 3, '+'],
         [0, '.', '=']
       ],
-      operands: ['x', '-', '+', '÷'],
+      symbols: ['x', '-', '+', '÷'],
+      // number that's showing at the top of the calculator
       displayedNumber: 0,
+      // first number in the mathematical operation 
       baseNumber: 0,
+      // second number in the mathematical operation
       modifyingNumber: 0,
-      operandSelected: null,
+      symbolSelected: null,
+      // whether a decimal has been added to displayedNumber
+      // (can only happen once)
       decimalAdded: false
     }
   },
   methods: {
     buttonPressed (button) {
+      // pressing one of the numbers or the decimal point
+      // updates the value of the displayed number
       if (typeof button === 'number' || button === '.') {
         this.setDisplayedNumber(button)
-      } else if (this.operands.indexOf(button) !== -1) {
+      // pressing one of the symbols updates the values
+      // of baseNumber and/or modifyingNumber
+      } else if (this.symbols.indexOf(button) !== -1) {
+        // new value set for baseNumber if not previously created
         if (!this.baseNumber) {
           this.baseNumber = parseFloat(this.displayedNumber)
+        // new value for baseNumber calculated based on
+        // symbol selected
         } else {
-          this.calculateBaseNumber(this.operandSelected) 
+          this.calculateBaseNumber(this.symbolSelected) 
         }
-        this.operandSelected = button
+        this.symbolSelected = button
       } else {
         switch (button) {
+          // displays value of baseNumber if equal sign is clicked
+          // only if baseNumber has been set
           case '=':
             if (this.baseNumber !== 0) {
-              this.calculateBaseNumber(this.operandSelected)
-              this.operandSelected = null
+              this.calculateBaseNumber(this.symbolSelected)
+              this.symbolSelected = null
               this.decimalAdded = false
             }
             break
+          // clears everything
           case 'AC':
             this.displayedNumber = 0
             this.baseNumber = 0
             this.modifyingNumber = 0
-            this.operandSelected = null
+            this.symbolSelected = null
             break
+          // determines what number should be toggled positive/negative
+          // if clicked, multiples pertinent number by -1  
           case '+/-':
             if (this.baseNumber === 0 && this.modifyingNumber === 0) {
               this.displayedNumber = this.displayedNumber * -1
@@ -55,6 +72,8 @@ export default {
               this.displayedNumber = this.modifyingNumber
             }
             break
+          // determines what number should be converted to a percentage
+          // if clicked, divides pertinent number by 100
           case '%':
             if (this.baseNumber === 0 && this.modifyingNumber === 0) {
               this.displayedNumber = this.displayedNumber / 100
@@ -69,8 +88,9 @@ export default {
         }
       }
     },
-    calculateBaseNumber (operand) {
-      switch (operand) {
+    calculateBaseNumber (symbol) {
+      // baseNumber calculated based on value of symbol (i.e. symbolSelected)
+      switch (symbol) {
         case 'x':
           this.baseNumber = this.baseNumber * this.modifyingNumber
           break;
@@ -84,20 +104,29 @@ export default {
           this.baseNumber = this.baseNumber / this.modifyingNumber
           break;
       }
+      // sets value of displayedNumber to either baseNumber or an exponential
+      // of baseNumber if it's longer than nine numbers
       this.displayedNumber = this.exceedsMaxNumberLength(this.baseNumber)
         ? this.baseNumber.toExponential(2)
         : this.baseNumber
+      // value of modifyingNumber is re-set to 0, decimalAdded reverts to false
       this.modifyingNumber = 0
       this.decimalAdded = false
     },
     setDisplayedNumber (input) {
+      // if displayedNumber is 0, this updates it
+      // if a decimal is added, decimalAdded toggles to true
+      // and can't be called anymore
       if (this.displayedNumber === 0) {
         if (input === '.') {
           this.decimalAdded = true
         }
         this.displayedNumber += input
       } else {
-        if (this.operandSelected) {
+        // if an symbol has been selected, edits are made to modifyingNumber
+        if (this.symbolSelected) {
+          // if modifyingNumber already exists, the existing string is appended
+          // with either a new number or a decimal point
           if (this.modifyingNumber !== 0) {
             if (input === '.') {
               if (!this.decimalAdded) {
@@ -109,6 +138,7 @@ export default {
                 this.modifyingNumber.toString() + input.toString()
               )
             }
+          // if modifyingNumber doesn't exist yet, a new string is created
           } else {
             if (input === '.') {
               if (!this.decimalAdded) {
@@ -119,8 +149,11 @@ export default {
               this.modifyingNumber += input
             }
           }
+          // the value of displayedNumber
+          // is set to the value of modifyingNumber
           this.displayedNumber = this.modifyingNumber
         } else {
+          // if an symbol hasn't been selected, edits are made to displayedNumber
           if (input === '.') {
             if (!this.decimalAdded) {
               this.displayedNumber += input
