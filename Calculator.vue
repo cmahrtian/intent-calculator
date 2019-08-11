@@ -39,29 +39,15 @@ export default {
               this.baseNumber = this.baseNumber / this.modifyingNumber
               break;
           }
-          this.displayedNumber = this.baseNumber 
+          this.displayedNumber = this.baseNumber
+          this.modifyingNumber = 0 
         }
-        // if (!this.operandSelected) {
-        //   this.baseNumber = this.displayedNumber
-        // } else {
-        //   switch (this.operandSelected) {
-        //     case 'x':
-        //       this.baseNumber = this.baseNumber * this.modifyingNumber
-        //       break;
-        //     case '-':
-        //       this.baseNumber = this.baseNumber - this.modifyingNumber
-        //       break;
-        //     case '+':
-        //       this.baseNumber = this.baseNumber / this.modifyingNumber
-        //   }
-        //   this.displayedNumber = this.baseNumber
-        // }
         this.operandSelected = button
       }
     },
     setDisplayedNumber (number) {
       if (this.displayedNumber === 0) {
-        this.displayedNumber += number
+        this.displayedNumber = number
       } else {
         if (this.operandSelected) {
           if (this.modifyingNumber && this.modifyingNumber !== 0) {
