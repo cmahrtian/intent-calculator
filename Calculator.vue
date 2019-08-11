@@ -84,7 +84,9 @@ export default {
           this.baseNumber = this.baseNumber / this.modifyingNumber
           break;
       }
-      this.displayedNumber = this.baseNumber
+      this.displayedNumber = this.exceedsMaxNumberLength(this.baseNumber)
+        ? this.baseNumber.toExponential(2)
+        : this.baseNumber
       this.modifyingNumber = 0
       this.decimalAdded = false
     },
@@ -132,8 +134,8 @@ export default {
         }
       }
     },
-    exceedsMaxNumberLength () {
-      return this.displayedNumber.toString().length > 9
+    exceedsMaxNumberLength (number) {
+      return number.toString().length > 9
     }
   }
 }
@@ -141,7 +143,7 @@ export default {
 
 <template>
   <div class="calculator">
-    <h1 :style="{ 'font-size': this.exceedsMaxNumberLength() 
+    <h1 :style="{ 'font-size': this.exceedsMaxNumberLength(this.displayedNumber) 
       ? '1em' : '2em' }">
       {{ displayedNumber }}
     </h1>
