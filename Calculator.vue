@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     buttonPressed (button) {
-      if (typeof button === 'number') {
+      if (typeof button === 'number' || button === '.') {
         this.setDisplayedNumber(button)
       } else if (this.operands.indexOf(button) !== -1) {
         if (!this.baseNumber) {
@@ -32,17 +32,19 @@ export default {
         switch (button) {
           case '=':
             this.calculateBaseNumber(this.operandSelected)
+            this.operandSelected = null
             break;
           case 'AC':
             this.displayedNumber = 0
             this.baseNumber = null
             this.modifyingNumber = null
             this.operandSelected = null
+            break;
         }
       }
     },
     calculateBaseNumber (operand) {
-      switch (this.operandSelected) {
+      switch (operand) {
         case 'x':
           this.baseNumber = this.baseNumber * this.modifyingNumber
           break;
