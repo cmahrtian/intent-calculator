@@ -32,16 +32,18 @@ export default {
       } else {
         switch (button) {
           case '=':
-            this.calculateBaseNumber(this.operandSelected)
-            this.operandSelected = null
-            this.decimalAdded = false
-            break;
+            if (this.baseNumber !== 0) {
+              this.calculateBaseNumber(this.operandSelected)
+              this.operandSelected = null
+              this.decimalAdded = false
+            }
+            break
           case 'AC':
             this.displayedNumber = 0
             this.baseNumber = 0
             this.modifyingNumber = 0
             this.operandSelected = null
-            break;
+            break
           case '+/-':
             if (this.baseNumber === 0 && this.modifyingNumber === 0) {
               this.displayedNumber = this.displayedNumber * -1
@@ -52,6 +54,7 @@ export default {
               this.modifyingNumber = this.modifyingNumber * -1
               this.displayedNumber = this.modifyingNumber
             }
+            break
         }
       }
     },
