@@ -12,9 +12,10 @@ export default {
       ],
       operands: ['x', '-', '+', '÷'],
       displayedNumber: 0,
-      baseNumber: null,
-      modifyingNumber: null,
-      operandSelected: null
+      baseNumber: 0,
+      modifyingNumber: 0,
+      operandSelected: null,
+      decimalAdded: false
     }
   },
   methods: {
@@ -23,7 +24,9 @@ export default {
         this.setDisplayedNumber(button)
       } else if (this.operands.indexOf(button) !== -1) {
         if (!this.baseNumber) {
-          this.baseNumber = this.displayedNumber
+          this.baseNumber = typeof this.displayedNumber === 'string'
+            ? 0
+            : this.displayedNumber
         } else {
           this.calculateBaseNumber(this.operandSelected) 
         }
@@ -33,11 +36,12 @@ export default {
           case '=':
             this.calculateBaseNumber(this.operandSelected)
             this.operandSelected = null
+            this.decimalAdded = false
             break;
           case 'AC':
             this.displayedNumber = 0
-            this.baseNumber = null
-            this.modifyingNumber = null
+            this.baseNumber = 0
+            this.modifyingNumber = 0
             this.operandSelected = null
             break;
         }
@@ -60,24 +64,46 @@ export default {
       }
       this.displayedNumber = this.baseNumber
       this.modifyingNumber = 0
+      this.decimalAdded = false
     },
-    setDisplayedNumber (number) {
+    setDisplayedNumber (input) {
       if (this.displayedNumber === 0) {
-        this.displayedNumber = number
+        if (input === '.') {
+          this.decimalAdded = true
+        }
+        this.displayedNumber += input
       } else {
         if (this.operandSelected) {
-          if (this.modifyingNumber && this.modifyingNumber !== 0) {
-            this.modifyingNumber = Number(
-              this.modifyingNumber.toString() + number.toString()
-            )
+          if (this.modifyingNumber !== 0) {
+            if (input === '.') {
+              
+            } else {
+              this.modifyingNumber = parseFloat(
+                this.modifyingNumber.toString() + input.toString()
+              )
+            }
           } else {
-            this.modifyingNumber = number
+            if (input === '.') {
+              if (!this.decimalAdded) {
+                this.modifyingNumber += input
+                this.decimalAdded = true
+              }
+            } else {
+              this.modifyingNumber += input
+            }
           }
           this.displayedNumber = this.modifyingNumber
         } else {
-          this.displayedNumber = Number(
-            this.displayedNumber.toString() + number.toString()
-          )
+          if (input === '.') {
+            if (!this.decimalAdded) {
+              this.displayedNumber += input
+              this.decimalAdded = true
+            }  
+          } else {
+            this.displayedNumber = parseFloat(
+              this.displayedNumber.toString() + input.toString()
+            )
+          }
         }
       }
     }
