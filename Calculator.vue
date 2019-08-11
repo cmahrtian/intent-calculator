@@ -145,7 +145,7 @@ export default {
         <span v-for="(button, index) in row"
           :key="index"
           @click="buttonPressed(button)">
-          <button>{{ button }}</button>
+          <button :data-label="button">{{ button }}</button>
         </span>
       </li>
     </ul>
@@ -166,5 +166,10 @@ export default {
   button {
     font-size: 1.5em;
     cursor: pointer;
+    width: 2em;
+  }
+
+  button[data-label="0"] {
+    width: 4em;
   }
 </style>
