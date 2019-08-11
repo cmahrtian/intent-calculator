@@ -55,6 +55,17 @@ export default {
               this.displayedNumber = this.modifyingNumber
             }
             break
+          case '%':
+            if (this.baseNumber === 0 && this.modifyingNumber === 0) {
+              this.displayedNumber = this.displayedNumber / 100
+            } else if (this.baseNumber !== 0 && this.modifyingNumber === 0) {
+              this.baseNumber = this.baseNumber / 100
+              this.displayedNumber = this.baseNumber
+            } else {
+              this.modifyingNumber = this.modifyingNumber / 100
+              this.displayedNumber = this.modifyingNumber
+            }
+            break
         }
       }
     },
