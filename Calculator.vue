@@ -42,6 +42,16 @@ export default {
             this.modifyingNumber = 0
             this.operandSelected = null
             break;
+          case '+/-':
+            if (this.baseNumber === 0 && this.modifyingNumber === 0) {
+              this.displayedNumber = this.displayedNumber * -1
+            } else if (this.baseNumber !== 0 && this.modifyingNumber === 0) {
+              this.baseNumber = this.baseNumber * -1
+              this.displayedNumber = this.baseNumber
+            } else {
+              this.modifyingNumber = this.modifyingNumber * -1
+              this.displayedNumber = this.modifyingNumber
+            }
         }
       }
     },
