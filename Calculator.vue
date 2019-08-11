@@ -154,22 +154,55 @@ export default {
 
 <style lang="css" scoped>
   .calculator {
-    width: 50%;
+    width: 12em;
     margin: 0 auto;
+    border: 1px solid black;
+    border-radius: 0.25em;
+    background: #1C1C1C;
+  }
+
+  h1 {
+    text-align: right;
+    margin-block-end: -0.25em;
+    padding-right: 0.3em;
+    color: white;
   }
   
   ul {
     list-style-type: none;
     padding-left: 0;
+    margin-block-end: 0;
   }
 
   button {
     font-size: 1.5em;
     cursor: pointer;
     width: 2em;
+    color: white;
+    background: #D4D4D2;
+    border-color: #1C1C1C;
   }
 
   button[data-label="0"] {
     width: 4em;
+    border-radius: 0 0 0 0.25em;
+  }
+
+  button[data-label="="] {
+    border-radius: 0 0 0.25em 0;
+  }
+  
+  button[data-label="AC"], 
+  button[data-label="+/-"], 
+  button[data-label="%"] {
+    background: #505050;
+  }
+
+  button[data-label="÷"],
+  button[data-label="x"],
+  button[data-label="-"],
+  button[data-label="+"],
+  button[data-label="="] {
+    background: #FF9500;
   }
 </style>
