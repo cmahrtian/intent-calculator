@@ -24,9 +24,7 @@ export default {
         this.setDisplayedNumber(button)
       } else if (this.operands.indexOf(button) !== -1) {
         if (!this.baseNumber) {
-          this.baseNumber = typeof this.displayedNumber === 'string'
-            ? 0
-            : this.displayedNumber
+          this.baseNumber = parseFloat(this.displayedNumber)
         } else {
           this.calculateBaseNumber(this.operandSelected) 
         }
@@ -76,7 +74,10 @@ export default {
         if (this.operandSelected) {
           if (this.modifyingNumber !== 0) {
             if (input === '.') {
-              
+              if (!this.decimalAdded) {
+                this.modifyingNumber += input
+                this.decimalAdded = true
+              }
             } else {
               this.modifyingNumber = parseFloat(
                 this.modifyingNumber.toString() + input.toString()
