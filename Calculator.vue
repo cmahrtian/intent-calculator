@@ -10,25 +10,53 @@ export default {
         [1, 2, 3, '+'],
         [0, '.', '=']
       ],
-      operands: ['x', '-', '+'],
+      operands: ['x', '-', '+', '÷'],
       displayedNumber: 0,
       baseNumber: null,
       modifyingNumber: null,
       operandSelected: null
     }
   },
-  // computed: {
-  //   displayedNumber () {
-
-  //   }
-  // },
   methods: {
     buttonPressed (button) {
       if (typeof button === 'number') {
         this.setDisplayedNumber(button)
-      } else if (this.operands.indexOf(button) !== -1 && !this.operandSelected) {
+      } else if (this.operands.indexOf(button) !== -1) {
+        if (!this.baseNumber) {
+          this.baseNumber = this.displayedNumber
+        } else {
+          switch (this.operandSelected) {
+            case 'x':
+              this.baseNumber = this.baseNumber * this.modifyingNumber
+              break;
+            case '-':
+              this.baseNumber = this.baseNumber - this.modifyingNumber
+              break;
+            case '+':
+              this.baseNumber = this.baseNumber + this.modifyingNumber
+              break;
+            case '÷':
+              this.baseNumber = this.baseNumber / this.modifyingNumber
+              break;
+          }
+          this.displayedNumber = this.baseNumber 
+        }
+        // if (!this.operandSelected) {
+        //   this.baseNumber = this.displayedNumber
+        // } else {
+        //   switch (this.operandSelected) {
+        //     case 'x':
+        //       this.baseNumber = this.baseNumber * this.modifyingNumber
+        //       break;
+        //     case '-':
+        //       this.baseNumber = this.baseNumber - this.modifyingNumber
+        //       break;
+        //     case '+':
+        //       this.baseNumber = this.baseNumber / this.modifyingNumber
+        //   }
+        //   this.displayedNumber = this.baseNumber
+        // }
         this.operandSelected = button
-        this.baseNumber = this.displayedNumber
       }
     },
     setDisplayedNumber (number) {
