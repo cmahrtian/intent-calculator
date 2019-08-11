@@ -28,8 +28,17 @@ export default {
           this.calculateBaseNumber(this.operandSelected) 
         }
         this.operandSelected = button
-      } else if (button === '=') {
-        this.calculateBaseNumber(this.operandSelected)
+      } else {
+        switch (button) {
+          case '=':
+            this.calculateBaseNumber(this.operandSelected)
+            break;
+          case 'AC':
+            this.displayedNumber = 0
+            this.baseNumber = null
+            this.modifyingNumber = null
+            this.operandSelected = null
+        }
       }
     },
     calculateBaseNumber (operand) {
