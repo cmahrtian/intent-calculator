@@ -131,6 +131,9 @@ export default {
           }
         }
       }
+    },
+    exceedsMaxNumberLength () {
+      return this.displayedNumber.toString().length > 9
     }
   }
 }
@@ -138,7 +141,10 @@ export default {
 
 <template>
   <div class="calculator">
-    <h1>{{ displayedNumber }}</h1>
+    <h1 :style="{ 'font-size': this.exceedsMaxNumberLength() 
+      ? '1em' : '2em' }">
+      {{ displayedNumber }}
+    </h1>
     <ul>
       <li v-for="(row, index) in buttonRows"
         :key="index">
@@ -165,6 +171,7 @@ export default {
     text-align: right;
     margin-block-end: -0.25em;
     padding-right: 0.3em;
+    line-height: 24px;
     color: white;
   }
   
