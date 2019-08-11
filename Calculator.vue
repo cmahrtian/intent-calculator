@@ -25,25 +25,30 @@ export default {
         if (!this.baseNumber) {
           this.baseNumber = this.displayedNumber
         } else {
-          switch (this.operandSelected) {
-            case 'x':
-              this.baseNumber = this.baseNumber * this.modifyingNumber
-              break;
-            case '-':
-              this.baseNumber = this.baseNumber - this.modifyingNumber
-              break;
-            case '+':
-              this.baseNumber = this.baseNumber + this.modifyingNumber
-              break;
-            case '÷':
-              this.baseNumber = this.baseNumber / this.modifyingNumber
-              break;
-          }
-          this.displayedNumber = this.baseNumber
-          this.modifyingNumber = 0 
+          this.calculateBaseNumber(this.operandSelected) 
         }
         this.operandSelected = button
+      } else if (button === '=') {
+        this.calculateBaseNumber(this.operandSelected)
       }
+    },
+    calculateBaseNumber (operand) {
+      switch (this.operandSelected) {
+        case 'x':
+          this.baseNumber = this.baseNumber * this.modifyingNumber
+          break;
+        case '-':
+          this.baseNumber = this.baseNumber - this.modifyingNumber
+          break;
+        case '+':
+          this.baseNumber = this.baseNumber + this.modifyingNumber
+          break;
+        case '÷':
+          this.baseNumber = this.baseNumber / this.modifyingNumber
+          break;
+      }
+      this.displayedNumber = this.baseNumber
+      this.modifyingNumber = 0
     },
     setDisplayedNumber (number) {
       if (this.displayedNumber === 0) {
